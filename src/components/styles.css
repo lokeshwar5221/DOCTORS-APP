@@ -1,0 +1,58 @@
+header{
+    background: rgb(0, 0, 0);
+    padding: 1%;
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+}
+button{
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    background-color: blueviolet;
+        
+}
+.s1{
+    background: rgb(183, 171, 171);
+    padding: 5%;
+    color: black;
+    display: flex;
+}
+.s1>div{
+    flex-basis: 50%;
+}
+.s1 img{
+    width: 100%;
+    height: 100%;
+}
+.doctorcontainer{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding:5%;
+    gap: 20px;
+}
+img{
+    width: 100%;
+    height:100%;
+}
+.s3{
+    text-align: center;
+}
+form{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 300px;
+    margin-right: 300px;
+    margin-bottom: 300px;
+    border: 1px solid white ;
+    padding: 2%;
+
+}
+form input{
+    padding: 10px;
+
+}
+form select{
+    padding: 10px;
+}
