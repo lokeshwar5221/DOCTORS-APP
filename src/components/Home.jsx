@@ -1,19 +1,25 @@
 import React from 'react';
-import { useEffect,useState } from 'react'
+import { useEffect,useState,useMemo } from 'react'
 import Doctorcard from './Doctorcard';
 import axios from 'axios';
-
-function Home({newdoctor,deletedata,updatedata}) {
+import { useContext } from 'react'
+import { DoctorContext } from './Doctorprovider';
+function Home() {
+  let {newdoctor}=useContext(DoctorContext)
     let [doctors,setDoctor]=useState([])
     let [search,setSearch]=useState('')
     let [specialization,setSpecialization]=useState('')
     
     async function getapidata(){
-      let response=await axios.get("https://doctorapibackend.onrender.com/doctors")
+      try{
+      let response=await axios.get("https://doctorapibackend.onrender.com/doctors");
 
-      console.log(response)
-      console.log(response.data)
-      setDoctor(response.data)
+      console.log(response);
+      console.log(response.data);
+      setDoctor(response.data);
+      }catch(err){
+        console.log(err);
+      }
     } useEffect(()=>{getapidata()},[newdoctor]); 
     //useEffect(()=>{
         // if(newdoctor in setDoctors(prevDoctors => [...prevDoctors])){
@@ -26,10 +32,19 @@ function Home({newdoctor,deletedata,updatedata}) {
     //     }
         
     // },[newdoctor])
-    let filteredDoctors = doctors.filter((val)=>{
-        return (val.name.toLowerCase().includes(search.toLowerCase()) && (specialization === '' || val.specialization === specialization)) 
-        // || (val.specialization.toLowerCase().includes(search.toLowerCase()));
-    });
+    let filtereddoctors=useMemo(()=>{
+      return doctors.filter((val,ind)=>{
+      console.log('running')
+      return(val.name.toLowerCase().includes(search.toLowerCase())
+      &&
+    (specialization==""|| val.specialization==specialization)
+      )
+    })
+  },[search,specialization,doctors])
+    // doctors.filter((val)=>{
+    //   console.log('running')
+    //     return (val.name.toLowerCase().includes(search.toLowerCase()) && (specialization === '' || val.specialization === specialization)) 
+    //     // || (val.specialization.toLowerCase().includes(search.toLowerCase()));
   return (
     <div>
       <input type="text" placeholder='Search Doctor' value={search} onChange={(e)=>setSearch(e.target.value)} style={{width:'30%',margin:'1% 35%',padding:'1%'}} />
@@ -44,8 +59,6 @@ function Home({newdoctor,deletedata,updatedata}) {
             <div className='doctorcontainer'>
                 {doctors.map((doctor)=>{
                     return <Doctorcard
-                    deletedata={deletedata}
-                    updatedata={updatedata}
                     name={doctor.name}
                     age={doctor.age}
                     gender={(doctor.gender)}

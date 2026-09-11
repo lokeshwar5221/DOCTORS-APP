@@ -8,10 +8,14 @@ function Doctordetails() {
     let[doctor,setDoctor]=useState()
 
     async function getapidata() {
+      try{
     let response=await axios.get("https://doctorapibackend.onrender.com/doctors")
     let finaldata=response.data.find((val)=>id==val.id)
     setDoctor(finaldata)
+    }catch(err){
+      console.log(err)
     }
+  }
     useEffect(()=>{
       getapidata()
     },[])
@@ -21,9 +25,11 @@ function Doctordetails() {
       {doctor && (
         <div>
         <h1>{doctor.id}</h1>
-        <h1>{doctor.name}</h1>
-        <h1>{doctor.gender}</h1>
-        <h1>{doctor.salary}</h1>
+        <h1>name:{doctor.name}</h1>
+        <h1>age:{doctor.age}</h1>
+        <h1>gender:{doctor.gender}</h1>
+        <h1>specialization:{doctor.specialization}</h1>
+        <h1>salary:{doctor.salary}</h1>
       </div>
     )}
     </div>
